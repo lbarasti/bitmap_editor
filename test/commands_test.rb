@@ -18,9 +18,9 @@ describe("clear bitmap") do
   end
 end
 
-describe("show bitmap") do
-  it "should clear an existing bitmap by setting all cells to 'O'" do
-    show(bitmap, &->(bm){bm}).must_equal "ABO\nOOA"
+describe("bitmap's string representation") do
+  it "should represent a bitmap as a 2D array" do
+    to_string(bitmap).must_equal "ABO\nOOA"
   end
 end
 

@@ -1,17 +1,3 @@
-# I M N: init M columns and N rows
-# C: clear
-# L X Y C
-# V X Y1 Y2 C
-# H X1 X2 V C
-# S: Show
-# https://gist.github.com/soulnafein/8ee4e60def4e5468df2f
-# https://github.com/carwow/bitmap_editor/blob/master/app/bitmap_editor.rb
-# template = %{
-#   I 5 6
-#   L 2 3 A
-#   S
-# }.strip.split("\n").map(&:strip)
-
 def init m, n
   (1..n).map{ (1..m).map{ ?O } }
 end
@@ -22,9 +8,13 @@ def clear bitmap
   init cols, rows
 end
 
-def show bitmap, &block
-  str = bitmap.map(&:join).join("\n")
-  block_given? ? (yield str) : (puts str)
+def to_string bitmap
+  bitmap.map(&:join).join("\n")
+end
+
+def show bitmap
+  puts to_string(bitmap)
+  bitmap
 end
 
 def color bitmap, x, y, c
