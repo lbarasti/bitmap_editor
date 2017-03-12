@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require_relative '../app/bitmap_editor'
+require_relative '../app/bitmap'
 require_relative '../app/commands'
 
 editor = BitmapEditor.new
@@ -39,5 +40,26 @@ describe("BitmapEditor#parse") do
   end
   it "should handle unknown commands" do
     editor.parse('NOT IMPLEMENTED').must_equal Commands::Unknown
+  end
+end
+
+describe("BitmapEditor#run") do
+  it "should run a sequence of commands" do
+    commands = [
+      'I 3 5',
+      'L 1 1 X',
+      'H 1 3 2 H',
+      'V 3 1 4 V',
+      'S', # show - should have no effect
+      'C 2 2 G', # invalid command - should have no effect
+      'L 1 2 T'
+    ]
+    editor.run(commands).must_equal [[?X, ?O, ?V],
+                                     [?T, ?H, ?V],
+                                     [?O, ?O, ?V],
+                                     [?O, ?O, ?V],
+                                     [?O, ?O, ?O]]
+    editor.run(commands + ['C']).must_equal Bitmap.init(3,5)
+    editor.run(commands + ['I 2 2']).must_equal Bitmap.init(2,2)
   end
 end
