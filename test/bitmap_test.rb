@@ -7,7 +7,7 @@ empty_bitmap = [[?O,?O,?O],
 bitmap = [[?A, ?B, ?O],
           [?O, ?O, ?A]]
 
-describe("Init bitmab") do
+describe("Init bitmap") do
   it "should return an empty bitmap with the give size" do
     init(3, 2).must_equal empty_bitmap
   end
