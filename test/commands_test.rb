@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../app/commands'
+require_relative '../app/bitmap'
 
 empty_bitmap = [[?O,?O,?O],
                 [?O,?O,?O]]

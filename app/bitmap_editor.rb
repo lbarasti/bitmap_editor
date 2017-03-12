@@ -1,4 +1,4 @@
-require_relative 'commands'
+require_relative 'bitmap'
 
 # I M N: init M columns and N rows
 # C: clear
@@ -9,32 +9,38 @@ require_relative 'commands'
 # https://gist.github.com/soulnafein/8ee4e60def4e5468df2f
 # https://github.com/carwow/bitmap_editor/blob/master/app/bitmap_editor.rb
 class BitmapEditor
+  MAX_X = 250
+  MAX_Y = 250
+  def run(input_stream)
+    puts "Running in interactive mode" unless input_stream.file.is_a? File
 
-  def run(file)
-    return puts "please provide correct file" if file.nil? || !File.exists?(file)
-
-    File.open(file).reduce(nil) do |bm, line|
-      line = line.chomp
-      case line
+    input_stream.reduce(init(MAX_X, MAX_Y)) do |bm, line|
+      case line.chomp
       when 'S'
-        bm.nil? ? (puts "There is no image") : show(bm)
+        show(bm)
       when 'C'
-        bm.nil? ? (puts "There is no image") : clear(bm)
-      when /^I \d\d?\d? \d\d?\d?$/
-        _, m, n = line.split(' ')
+        clear(bm)
+      when /^I (\d+) (\d+)$/
+        m, n = $1, $2
         init(m.to_i, n.to_i)
-      when /^L \d\d?\d? \d\d?\d? [A-Z]/
-        _, x, y, c = line.split(' ')
+      when /^L (\d+) (\d+) ([A-Z])/
+        x, y, c = $1, $2, $3
         color(bm, x.to_i, y.to_i, c)
-      when /^H \d\d?\d? \d\d?\d? \d\d?\d? [A-Z]$/
-        _, x1, x2, y, c = line.split(' ')
+      when /^H (\d+) (\d+) (\d+) ([A-Z])$/
+        x1, x2, y, c = $1, $2, $3, $4
         row(bm, x1.to_i, x2.to_i, y.to_i, c)
-      when /^V \d\d?\d? \d\d?\d? \d\d?\d? [A-Z]$/
-        _, x, y1, y2, c = line.split(' ')
+      when /^V (\d+) (\d+) (\d+) ([A-Z])$/
+        x, y1, y2, c = $1, $2, $3, $4
         col(bm, x.to_i, y1.to_i, y2.to_i, c)
       else
         puts 'unrecognised command :('
+        bm
       end
     end
   end
+end
+
+trap "SIGINT" do
+  puts "\rExiting interactive mode"
+  exit 0
 end
