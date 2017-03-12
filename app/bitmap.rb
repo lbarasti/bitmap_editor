@@ -6,9 +6,8 @@ module Bitmap
   end
 
   def clear bitmap
-    rows = bitmap.size
-    cols = bitmap[0].size
-    init cols, rows
+    sz = size(bitmap)
+    init sz.x, sz.y
   end
 
   def to_string bitmap
@@ -35,9 +34,8 @@ module Bitmap
   end
 
   def transpose bitmap
-    rows = bitmap.size
-    cols = bitmap[0].size
-    (0...cols).map{|i| (0...rows).map{|j| bitmap[j][i]}}
+    sz = size(bitmap)
+    (0...sz.x).map{|i| (0...sz.y).map{|j| bitmap[j][i]}}
   end
 
   def size bitmap
