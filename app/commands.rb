@@ -1,6 +1,7 @@
 require_relative 'bitmap'
 
 class Command
+  include Bitmap
   def initialize(fn)
     @fn = fn
   end
