@@ -63,30 +63,10 @@ describe("color bitmap col") do
   end
 end
 
-describe("color adj bitmap") do
-  it "should color the cells surrounding the given 
-  coordinates IF they are of the same color" do
-    color_adj(big_bm, 3, 3, ?X).last
-      .must_equal [[?O, ?O, ?O, ?O, ?O],
-                   [?O, ?S, ?A, ?X, ?O],
-                   [?O, ?Z, ?X, ?X, ?O],
-                   [?O, ?X, ?X, ?X, ?O],
-                   [?O, ?O, ?O, ?O, ?O]]
-  end
-  it "... Even when the selected coords are on the border" do
-    color_adj(big_bm, 1, 1, ?X).last
-      .must_equal [[?X, ?X, ?O, ?O, ?O],
-                   [?X, ?S, ?A, ?O, ?O],
-                   [?O, ?Z, ?O, ?O, ?O],
-                   [?O, ?O, ?O, ?O, ?O],
-                   [?O, ?O, ?O, ?O, ?O]]
-  end
-end
-
 describe("color all bitmap") do
   it "should color the cells surrounding the given 
   coordinates IF they are of the same color" do
-    color_all(big_bm, 3, 3, ?X).last
+    color_all(big_bm, 3, 3, ?X)
       .must_equal [[?X, ?X, ?X, ?X, ?X],
                    [?X, ?S, ?A, ?X, ?X],
                    [?X, ?Z, ?X, ?X, ?X],

@@ -33,25 +33,22 @@ module Bitmap
     transpose(row(transpose(bitmap), y1, y2, x, c))
   end
 
-  def color_adj bitmap, x, y, target_color, source_color = bitmap[y-1][x-1], visited = []
-    adj(x - 1, y - 1, bitmap, source_color, visited)
-      .reduce([visited, bitmap]) do |(vis, bm), (i,j)|
-        [vis.concat([i,j]), color(bm, i + 1, j + 1, target_color)]
-      end
-  end
-
-  def color_all bitmap, x, y, target_color, source_color = bitmap[y-1][x-1], visited = []
-    visited, bitmap = adj(x,y, bitmap, source_color, visited).reduce([visited,bitmap]){|(vis,bm), (i,j)|
-      color_adj(bm, i, j, target_color, source_color, vis)
+  def color_all bitmap, x, y, target_color, source_color = bitmap[y-1][x-1]
+    cells = adj(x - 1, y - 1, bitmap, source_color)
+    new_bitmap = cells.reduce(bitmap){|bm, (i,j)|
+      color(bm, i + 1, j + 1, target_color)
+    }
+    cells.reduce(new_bitmap){|bm, (i,j)|
+      color_all(bm, i + 1, j + 1, target_color, source_color)
     }
   end
   
-  def adj x, y, bitmap, color, visited
+  def adj x, y, bitmap, color
     (-1..1).flat_map{|i| (-1..1).map{|j| [x+i, y+j]}}
-      .reject{|(i,j)| i < 0 || j < 0}
-      .reject{|coord| visited.include? coord}
+      .reject{|(i,j)| i < 0 || j < 0 || i >= size(bitmap).x || j >= size(bitmap).y}
       .select{|(i,j)| bitmap[j][i] == color}
   end
+
 
   def transpose bitmap
     sz = size(bitmap)

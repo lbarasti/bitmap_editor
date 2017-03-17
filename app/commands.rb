@@ -42,7 +42,7 @@ module Commands
     def initialize(x, y, c)
       super(-> bm {
         return bm unless valid?([x, size(bm).x], [y, size(bm).y])
-        color_all(bm, x.to_i, y.to_i, c).last
+        color_all(bm, x.to_i, y.to_i, c)
       })
     end
   end
