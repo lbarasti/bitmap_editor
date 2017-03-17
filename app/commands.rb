@@ -38,6 +38,15 @@ module Commands
       })
     end
   end
+  class ColorAll < Command
+    def initialize(x, y, c)
+      super(-> bm {
+        return bm unless valid?([x, size(bm).x], [y, size(bm).y])
+        color_all(bm, x.to_i, y.to_i, c).last
+      })
+    end
+  end
+  
   class Horizontal < Command
     def initialize(x1, x2, y, c)
       super(-> bm {

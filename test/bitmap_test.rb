@@ -7,6 +7,12 @@ empty_bitmap = [[?O,?O,?O],
 bitmap = [[?A, ?B, ?O],
           [?O, ?O, ?A]]
 
+big_bm = [[?O, ?O, ?O, ?O, ?O],
+          [?O, ?S, ?A, ?O, ?O],
+          [?O, ?Z, ?O, ?O, ?O],
+          [?O, ?O, ?O, ?O, ?O],
+          [?O, ?O, ?O, ?O, ?O]]
+
 describe("Init bitmap") do
   it "should return an empty bitmap with the give size" do
     init(3, 2).must_equal empty_bitmap
@@ -54,6 +60,38 @@ describe("color bitmap col") do
     col(bitmap, 1, 1, 2, ?X)
       .must_equal [[?X,?B,?O],
                    [?X,?O,?A]]
+  end
+end
+
+describe("color adj bitmap") do
+  it "should color the cells surrounding the given 
+  coordinates IF they are of the same color" do
+    color_adj(big_bm, 3, 3, ?X).last
+      .must_equal [[?O, ?O, ?O, ?O, ?O],
+                   [?O, ?S, ?A, ?X, ?O],
+                   [?O, ?Z, ?X, ?X, ?O],
+                   [?O, ?X, ?X, ?X, ?O],
+                   [?O, ?O, ?O, ?O, ?O]]
+  end
+  it "... Even when the selected coords are on the border" do
+    color_adj(big_bm, 1, 1, ?X).last
+      .must_equal [[?X, ?X, ?O, ?O, ?O],
+                   [?X, ?S, ?A, ?O, ?O],
+                   [?O, ?Z, ?O, ?O, ?O],
+                   [?O, ?O, ?O, ?O, ?O],
+                   [?O, ?O, ?O, ?O, ?O]]
+  end
+end
+
+describe("color all bitmap") do
+  it "should color the cells surrounding the given 
+  coordinates IF they are of the same color" do
+    color_all(big_bm, 3, 3, ?X).last
+      .must_equal [[?X, ?X, ?X, ?X, ?X],
+                   [?X, ?S, ?A, ?X, ?X],
+                   [?X, ?Z, ?X, ?X, ?X],
+                   [?X, ?X, ?X, ?X, ?X],
+                   [?X, ?X, ?X, ?X, ?X]]
   end
 end
 

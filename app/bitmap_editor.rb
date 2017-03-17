@@ -23,6 +23,9 @@ class BitmapEditor
     when /^L (\d+) (\d+) ([A-Z])$/
       x, y, c = $1.to_i, $2.to_i, $3
       Commands::Color.new(x, y, c)
+    when /^F (\d+) (\d+) ([A-Z])$/
+      x, y, c = $1.to_i, $2.to_i, $3
+      Commands::ColorAll.new(x, y, c)
     when /^H (\d+) (\d+) (\d+) ([A-Z])$/
       x1, x2, y, c = $1.to_i, $2.to_i, $3.to_i, $4
       Commands::Horizontal.new(x1, x2, y, c)
